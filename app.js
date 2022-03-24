@@ -18,7 +18,7 @@ const menu = [
   {
     id: 3,
     title: "godzilla milkshake",
-    category: "shakes",
+    category: "snakes",
     price: 6.99,
     img: "./images/item-3.jpeg",
     desc: `ombucha chillwave fanny pack 3 wolf moon street art photo booth before they sold out organic viral.`,
@@ -42,7 +42,7 @@ const menu = [
   {
     id: 6,
     title: "oreo dream",
-    category: "shakes",
+    category: "snakes",
     price: 18.99,
     img: "./images/item-6.jpeg",
     desc: `Portland chicharrones ethical edison bulb, palo santo craft beer chia heirloom iPhone everyday`,
@@ -66,9 +66,73 @@ const menu = [
   {
     id: 9,
     title: "quarantine buddy",
-    category: "shakes",
+    category: "snakes",
     price: 16.99,
     img: "./images/item-9.jpeg",
     desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`,
   },
 ];
+
+
+//list item
+const section = document.querySelector('.section-center');
+const btnContainer = document.querySelector('.btn-container');
+const categoriesBtn = document.querySelectorAll('.filter-btn');
+
+// Display menu
+const displayMenu = (menus) => {
+
+  // data set onload
+  let allMenus = menus.map(item => {
+
+    return `<article class="menu-item">
+              <img src="${item.img}" alt="menu item" class="photo" />
+              <div class="item-info">
+                <header>
+                  <h4>${item.title}</h4>
+                  <h4 class="price">${item.price}</h4>
+                </header>
+                <p class="item-text">
+                  ${item.desc}
+                </p>
+              </div>
+            </article>`
+  })
+
+  allMenus = allMenus.join('');
+  section.innerHTML = allMenus;
+}
+
+
+// Data load on when page load
+window.addEventListener('load', () => {
+
+  //filter button function
+  let categories = [];
+  const filterBtn = menu.filter(btn => categories.includes(btn.category) ? false  : categories.push(btn.category) );
+
+  let button = categories.map(category => {
+    return `<button type="button" data-id="${category}" class="filter-btn">${category}</button>`
+  })
+
+  button = button.join('');
+  btnContainer.innerHTML += button;
+  displayMenu(menu);
+
+})
+
+// show filter wise menu
+document.querySelector('.btn-container').addEventListener('click', (e) => {
+  
+  const category = e.target.dataset.id;
+  if(category === 'all'){
+
+    displayMenu(menu);
+  }else {
+
+    const data = menu.filter(item => item.category === category);
+    displayMenu(data);
+  }
+})
+
+
